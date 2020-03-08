@@ -1,55 +1,58 @@
-let obj ={
-  playerChoice: 'O',
+let playerChoice= "O";
 
+let gameBoard = {
+  allSquares: document.querySelectorAll('.square'),
+  clear: document.getElementById("clearGame"),
+  tds: document.getElementsByTagName('td'),
+  checkWin: () =>{
+    let win =[[1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7] ];
+
+    for (let i = 0; i < win.length; i++){
+      const currentCombo = win[i];
+
+      const firstBox = document.getElementById(currentCombo[0]).innerHTML;
+      const secondBox = document.getElementById(currentCombo[1]).innerHTML;
+      const thirdBox = document.getElementById(currentCombo[2]).innerHTML;
+
+      if(firstBox=== "O" || firstBox === "X"){
+        if(firstBox === secondBox && firstBox === thirdBox)
+        {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 }
-const squares = document.querySelectorAll(".square");
-// let playerChoice = "O";
-const clear = document.getElementById("clearGame");
 
-
-squares.forEach(function(currentSquare){
- currentSquare.addEventListener('click', (event) => {
-   const element = event.target;
-   if(element.innerHTML === "X"|| element.innerHTML === "O"){
-     return;
-   }
-   element.innerHTML = playerChoice;
-
-   const isWinner = checkWin();
-
-   if (isWinner) {
-     alert('WINNNNEEEEERRRRRRRRRR  🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉🎉')
-   } else {
-   if(playerChoice === "O"){
-     playerChoice = "X"
-   }else{
-     playerChoice = "O";
-   }
- }
- })
+gameBoard.allSquares.forEach((sq) =>{
+  sq.addEventListener('click', (event) => {
+    const element = event.target
+    if(element.innerHTML === "X"|| element.innerHTML === "O"){
+      return;
+    }
+    element.innerHTML = playerChoice;
+    if (gameBoard.checkWin()) {
+      alert('Whoever this is. You win!')
+    }else{
+      player.playerLetter();
+    }
+  })
 })
 
-function checkWin() {
- let win =[['square1','square2','square3'], ['square4','square5','square6'], ['square7','square8','square9'], ['square1','square4','square7'], ['square2','square5','square8'], ['square3','square6','square9'], ['square1','square5','square9'], ['square3','square5','square7'] ];
- for (let i = 0; i < win.length; i++){
-   const currentCombo = win[i];
-   const firstBox = document.getElementById(currentCombo[0]).innerHTML;
-   const secondBox = document.getElementById(currentCombo[1]).innerHTML;
-   const thirdBox = document.getElementById(currentCombo[2]).innerHTML;
-   if(firstBox === "O" || firstBox === "X"){
-     if(firstBox === secondBox && firstBox === thirdBox)
-     {
-       return true;
-     }
-   }
- }
- return false;
+let player = {
+  playerLetter: () => {
+    if(playerChoice === "O"){
+      playerChoice = "X"
+    }else{
+      playerChoice = "O";
+    }
+  }
 }
 
+gameBoard.clear.addEventListener("click", (event)=>{
+    for(let i = 0; i < gameBoard.tds.length; i++) {
+        gameBoard.tds[i].innerHTML = ''
+    }
+})
 
-clear.addEventListener("click", function () {
-   const tds = document.getElementsByTagName('td');
-   for(let i = 0; i < tds.length; i++) {
-       tds[i].innerHTML = ''
-   }
-});
