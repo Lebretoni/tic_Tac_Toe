@@ -1,3 +1,4 @@
+//worked on together with house sebastian abby elmer thais jessie
 let playerChoice= "O";
 
 let gameBoard = {
